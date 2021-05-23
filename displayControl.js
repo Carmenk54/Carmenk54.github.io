@@ -6,7 +6,7 @@ function displayStatus(status) {
 }
 
 function displayTasks(tasks,taskElmtList) {
-    let todoTable = document.getElementById('todosTable');
+    let todoTable = document.getElementById(ID_TODO_TABLE);
     
     // Clear child nodes
     todoTable.innerHTML = '';
@@ -24,9 +24,9 @@ function displayTasks(tasks,taskElmtList) {
     todoTable.innerHTML = tableHtml;
 }
 
-function displayOnUpdateDueDateModal(elmt) {
-    let modalBody = document.getElementById('updateDueDateBody');
-    modalBody.innerHTML = elmt;
+function displayInElmtById(id, elmt) {
+    let idElmt = document.getElementById(id);
+    idElmt.innerHTML = elmt;
 }
 
 function getTaskElmt(task, tags) {
@@ -151,6 +151,29 @@ function getDueDateTableElmt(dueDateTable) {
         <div>
             <input class="form-control" type="date" placeholder="New Due Date" id="new-due-date">
         </div>
+    `;
+}
+
+function getTagTableElmt(commonTags=[], tags={}) {
+    let tagTableHtml = '';
+
+    for (let tag in tags) {
+        let checked = commonTags.includes(tag) ? "checked" : "";
+
+        tagTableHtml += `
+            <tr>
+                <td><input class="form-check-input" type="checkbox" value="" id="${tag}" ${checked}></td>
+                <td>${tags[tag]}</td>
+            </tr>
+        `;
+    }
+
+    return `
+        <table class="table">
+            <tbody>
+                ${tagTableHtml}
+            </tbody>
+        </table>
     `;
 }
 

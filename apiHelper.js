@@ -37,7 +37,6 @@ function removeCredentials() {
 function getRequest(urlParts, options={}) {
     let getOptions = {
         method: 'GET',
-        headers: getHabiticaHeaders(),
         ...options
     };
 
@@ -47,7 +46,6 @@ function getRequest(urlParts, options={}) {
 function postRequest(urlParts, options={}) {
     let postOptions = {
         method: 'POST',
-        headers: getHabiticaHeaders(),
         ...options
     };
 
@@ -57,7 +55,15 @@ function postRequest(urlParts, options={}) {
 function putRequest(urlParts, options={}) {
     let putOptions = {
         method: 'PUT',
-        headers: getHabiticaHeaders(),
+        ...options
+    };
+
+    return request(urlParts, putOptions);
+}
+
+function deleteRequest(urlParts, options={}) {
+    let putOptions = {
+        method: 'DELETE',
         ...options
     };
 
@@ -65,8 +71,13 @@ function putRequest(urlParts, options={}) {
 }
 
 function request(urlParts, options) {
+    let reqOptions = {
+        ...options,
+        headers: getHabiticaHeaders(), ...options.headers,
+    }
+
     return new Promise((resolve, reject) => {
-        fetch(`${BASE_URL}${urlParts}`, options)
+        fetch(`${BASE_URL}${urlParts}`, reqOptions)
             .then((resp) => {
                 if (!resp.ok)
                     reject(`HTTP error! status: ${resp.status}`);

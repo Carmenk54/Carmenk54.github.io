@@ -66,7 +66,7 @@ function updateDueDatesModalCtrl() {
     });
 
     let dueDateTableElmt =  getDueDateTableElmt(dueDateTable);
-    displayOnUpdateDueDateModal(dueDateTableElmt);
+    displayInElmtById('updateDueDateBody', dueDateTableElmt);
 }
 
 function updateDueDates() {
@@ -100,7 +100,7 @@ function updateDueDates() {
         });
 }
 
-function updateTags() {
+function updateTagsModalCtrl() {
     let checkedTodos = getAllCheckedTodos();
 
     let commonTags = [];
@@ -120,15 +120,48 @@ function updateTags() {
             commonTags.push(tag);
     }
 
-    console.log(commonTags);
+    console.log({commonTags});
+
+    let tagTableElmt = getTagTableElmt(commonTags, tags);
+    displayInElmtById(ID_UPDATE_TAG_BODY, tagTableElmt);
 }
 
 function updateTags() {
+    let modalBody = document.getElementById(ID_UPDATE_TAG_BODY);
+    let inputs = modalBody.getElementsByTagName('input');
 
+    let checkedTags = getAllCheckedCheckboxId(inputs);
+    let checkedTodos = getAllCheckedTodos();
+
+    checkedTodos.forEach((todo, i) => {
+        let toAdd = checkedTags.filter(tag => !todo.tags.includes(tag));
+        let toDel = todo.tags.filter(tag => !checkedTags.includes(tag));
+
+        let addPromList = toAdd.map(tag => {
+            let urlParts = `tasks/${todo.id}/tags/${tag}`;
+            return postRequest(urlParts);
+        });
+
+        let delPromList = toDel.map(tag => {
+            let urlParts = `tasks/${todo.id}/tags/${tag}`;
+            return deleteRequest(urlParts);
+        });
+
+        Promise.all([...addPromList, ...delPromList])
+            .then(function() {
+                displayStatus(`Updated ${checkedTodos.length} todos`);
+                fetchTodos();
+            })
+            .catch(e => {
+                displayStatus(`Failed to update`);
+                alert(e);
+            });
+    });
 }
 
 function getAllCheckedTodos() {
-    let inputs = document.getElementsByTagName('input');
+    let todoTable = document.getElementById(ID_TODO_TABLE);
+    let inputs = todoTable.getElementsByTagName('input');
     
     let result = [];
     for (let input of inputs) {
@@ -139,6 +172,19 @@ function getAllCheckedTodos() {
             let checkedTodo = fetchedTodos.find(todo => todo.id == id);
             if (checkedTodo)
                 result.push(checkedTodo);
+        }
+    }
+    
+    return result;
+}
+
+function getAllCheckedCheckboxId(inputs=[]) {
+    let result = [];
+    for (let input of inputs) {
+        let isCheckbox = input.getAttribute("type") === 'checkbox';
+
+        if (isCheckbox && input.checked) {
+            result.push(input.id);
         }
     }
     

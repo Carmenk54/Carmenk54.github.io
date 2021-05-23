@@ -56,7 +56,7 @@
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Todo</th>
+                    <th scope="col">Todos</th>
                 </tr>
             </thead>
             <tbody id="todosTable">
@@ -73,8 +73,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div>
-                        <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateDueDateModal" onclick="updateDueDatesModalCtrl()">Due Date</button>
+                    <div class="list-group list-group-flush">
+                        <a href="" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateDueDateModal" onclick="updateDueDatesModalCtrl()">Due Date</a>
+                        <a href="" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateTagsModal" onclick="updateTagsModalCtrl()">Tags</a>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -110,7 +111,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="updateTagsBody">
-                    ...
+                    No tags
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
