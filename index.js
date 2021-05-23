@@ -219,6 +219,34 @@ function clearTagFilter() {
     filterByTagModalCtrl();
 }
 
+function deleteTodos() {
+    let checkedTodos = getAllCheckedTodos();
+    
+    let msg = `Are you sure to delete ${checkedTodos.length} todos?`;
+    checkedTodos.forEach(todo => { msg += `\n  - ${todo.text}` });
+    let confirmed = confirm(msg);
+    if (!confirmed) {
+        return;
+    }
+
+    console.log(checkedTodos.map(todo => todo.text));
+
+    let delPromises = checkedTodos.map(todo => {
+        let urlParts = `tasks/${todo.id}`;
+        return deleteRequest(urlParts);
+    });
+
+    Promise.all(delPromises)
+        .then(function() {
+            displayStatus(`Deleted ${checkedTodos.length} todos`);
+            fetchTodos();
+        })
+        .catch(e => {
+            displayStatus(`Failed to delete`);
+            alert(e);
+        });
+}
+
 async function getAllTags() {
     let urlParts = "tags"
 

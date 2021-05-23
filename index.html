@@ -38,6 +38,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><p id="version" class="version-display dropdown-item disabled"></p></li>
+                        <li><a class="dropdown-item" href="https://habitica.com">Habitica</a></li>
                         <li><a class="dropdown-item" href="" onclick="logout()">Logout</a></li>
                     </ul>
                 </li>
@@ -73,8 +74,9 @@
                 </div>
                 <div class="modal-body">
                     <div class="list-group list-group-flush">
-                        <a href="" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateDueDateModal" onclick="updateDueDatesModalCtrl()">Due Date</a>
-                        <a href="" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateTagsModal" onclick="updateTagsModalCtrl()">Tags</a>
+                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateDueDateModal" onclick="updateDueDatesModalCtrl()">Due Date</a>
+                        <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#updateTagsModal" onclick="updateTagsModalCtrl()">Tags</a>
+                        <a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal" onclick="deleteTodos()">Delete</a>
                     </div>
                 </div>
                 <div class="modal-footer">
