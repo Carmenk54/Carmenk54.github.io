@@ -24,13 +24,13 @@
           <div class="collapse navbar-collapse" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <button class="btn btn-xs btn-outline-success me-2" type="button" onclick="pushSortedDueDateTasksToTop()">Sort</button>
+                    <button class="btn btn-outline-success me-2" type="button" onclick="pushSortedDueDateTasksToTop()">Sort</button>
                 </li>
+                <!-- <li class="nav-item">
+                    <button class="btn btn-outline-secondary me-2" type="button" onclick="fetchTodos()">Fetch</button>
+                </li> -->
                 <li class="nav-item">
-                    <button class="btn btn-xs btn-outline-secondary me-2" type="button" onclick="fetchTodos()">Fetch</button>
-                </li>
-                <li class="nav-item">
-                    <button class="btn btn-xs btn-outline-warning me-2" type="button" data-bs-toggle="modal" data-bs-target="#updateTodoModal">Update</button>
+                    <button class="btn btn-outline-warning me-2" type="button" data-bs-toggle="modal" data-bs-target="#updateTodoModal">Update</button>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="" id="status-display" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -45,12 +45,17 @@
           </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container-md">
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col"></th>
-                    <th scope="col">Todos</th>
+                    <th scope="col">
+                        <span class="todo-table-header">Todos <span class="todo-table-header">
+                            <span class="btn btn-outline-light" onclick="fetchTodos()">&#128260</span>
+                            <span class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#filterByTagsModal" onclick="filterByTagModalCtrl()">&#127991</span></span>
+                        </span>
+                    </th>
                 </tr>
             </thead>
             <tbody id="todosTable">
@@ -110,6 +115,24 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="updateTags()">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Filter By Tags Modal -->
+    <div class="modal fade" id="filterByTagsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="filterByTagsLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="filterByTagsLabel">Filter</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="filterByTagsBody">
+                    No tags
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="clearTagFilter()">Clear</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="filterByTag()">Filter</button>
                 </div>
             </div>
         </div>

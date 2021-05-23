@@ -154,11 +154,11 @@ function getDueDateTableElmt(dueDateTable) {
     `;
 }
 
-function getTagTableElmt(commonTags=[], tags={}) {
+function getTagTableElmt(selectedTags=[], tags={}) {
     let tagTableHtml = '';
 
     for (let tag in tags) {
-        let checked = commonTags.includes(tag) ? "checked" : "";
+        let checked = selectedTags.includes(tag) ? "checked" : "";
 
         tagTableHtml += `
             <tr>

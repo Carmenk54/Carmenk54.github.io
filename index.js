@@ -1,4 +1,5 @@
 let tags = {};
+let filterTag = [];
 let fetchedTodos = [];
 
 function logout() {
@@ -10,8 +11,6 @@ function pushSortedDueDateTasksToTop() {
     displayStatus("Sorting...")
 
     getAllTodos().then(function(resp) {    
-        console.log(resp);
-
         let todos = resp.data;
         let todosWithDate = todos.filter(todo => todo.date)
         
@@ -33,9 +32,7 @@ function fetchTodos() {
         let todos = resp.data;
         fetchedTodos = [...todos];
 
-        let taskElmtList = todos.map((todo) => getTaskElmt(todo, tags))
-        
-        displayTasks(todos,taskElmtList);
+        filterByTag();
         displayStatus(`Fetched ${todos.length} todos`);
     });
 }
@@ -120,8 +117,6 @@ function updateTagsModalCtrl() {
             commonTags.push(tag);
     }
 
-    console.log({commonTags});
-
     let tagTableElmt = getTagTableElmt(commonTags, tags);
     displayInElmtById(ID_UPDATE_TAG_BODY, tagTableElmt);
 }
@@ -191,6 +186,39 @@ function getAllCheckedCheckboxId(inputs=[]) {
     return result;
 }
 
+function filterByTagModalCtrl() {
+    let tagTableElmt = getTagTableElmt(filterTag, tags);
+    displayInElmtById(ID_FILTER_BY_TAG_BODY, tagTableElmt);
+}
+
+function filterByTag() {
+    let tagTable = document.getElementById(ID_FILTER_BY_TAG_BODY);
+    let checkedTag = getAllCheckedCheckboxId(tagTable.getElementsByTagName('input'));
+    filterTag = [...checkedTag];
+    if (filterTag.length < 1) {
+        let taskElmtList = fetchedTodos.map((todo) => getTaskElmt(todo, tags));
+        displayTasks(fetchedTodos, taskElmtList);
+        return;
+    }
+
+    let filtered = fetchedTodos.filter(todo => {
+        for (let tag of checkedTag) {
+            if (todo.tags.includes(tag))
+                return true;
+        }
+
+        return false;
+    });
+
+    let taskElmtList = filtered.map((todo) => getTaskElmt(todo, tags));
+    displayTasks(filtered, taskElmtList);
+}
+
+function clearTagFilter() {
+    filterTag = [];
+    filterByTagModalCtrl();
+}
+
 async function getAllTags() {
     let urlParts = "tags"
 
@@ -238,6 +266,7 @@ async function moveToTop(tasks) {
 // init
 function init() {
     getAllTags()
+        .then(fetchTodos);
 }
 
 init();
