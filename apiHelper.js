@@ -20,6 +20,7 @@ function getHabiticaHeaders() {
     let habiticaHeaders = {
         'x-api-user': apiUser,
         'x-api-key' : apiKey,
+        'x-client': APP_NAME,
         'Content-Type': 'application/json',
     };
     
