@@ -194,3 +194,10 @@ function getCheckboxChecked(id) {
 
     return elmt.checked;
 }
+
+function displayVersion() {
+    let versionElmt = document.getElementById(ID_VERSION);
+    versionElmt.innerText = VERSION;
+}
+
+displayVersion();

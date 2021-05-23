@@ -57,6 +57,7 @@ function login() {
     };
     xhttp.open("POST", `${BASE_URL}${urlParts}`, true);
     xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.setRequestHeader("x-client", `${AUTHOR_USER}-${APP_NAME}`);
     xhttp.send(`username=${username}&password=${password}`);
 }
 
