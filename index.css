@@ -44,3 +44,8 @@ p.tag-list span {
     justify-content: space-between;
     align-items: center;
 }
+
+.task-notes {
+    font-size: 90%;
+    color: dimgray;
+}
