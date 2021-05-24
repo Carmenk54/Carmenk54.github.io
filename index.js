@@ -78,7 +78,7 @@ function updateDueDates() {
     displayStatus(`Updating...`);
     let putReqList = checkedTodos.map((todo, i) => {
         let urlParts = `tasks/${todo.id}`;
-        let body = { 'date': moment(newDueDate).format() };
+        let body = { 'date': (new Date(newDueDate)).toISOString() };
         let options = {
             body: JSON.stringify(body),
         };
