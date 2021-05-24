@@ -219,6 +219,25 @@ function clearTagFilter() {
     filterByTagModalCtrl();
 }
 
+function checkTodos() {
+    let checkedTodos = getAllCheckedTodos();
+
+    let checkPromises = checkedTodos.map(todo => {
+        let urlParts = `tasks/${todo.id}/score/up`;
+        return postRequest(urlParts);
+    });
+
+    Promise.all(checkPromises)
+        .then(function() {
+            displayStatus(`Checked ${checkedTodos.length} todos`);
+            fetchTodos();
+        })
+        .catch(e => {
+            displayStatus(`Failed to check`);
+            alert(e);
+        });
+}
+
 function deleteTodos() {
     let checkedTodos = getAllCheckedTodos();
     
