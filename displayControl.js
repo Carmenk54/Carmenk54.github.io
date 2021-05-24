@@ -34,7 +34,6 @@ function getTaskElmt(task, tags) {
         return;
 
     let title = MarkdownToHtml.parse(task.text);
-    let notesElmt = getNotesElmt(task.notes);
 
     let checklist = task.checklist;
     let checklistElmt = getChecklistElmt(checklist);
@@ -44,24 +43,10 @@ function getTaskElmt(task, tags) {
 
     return `
         <div>${title}</div>
-        ${notesElmt}
         ${checklistElmt}
         <div class="task-extra">
             ${dueDateElmt}
             ${taskTags}
-        </div>
-    `;
-}
-
-function getNotesElmt(notes) {
-    if (!notes)
-        return '';
-
-    return `
-        <div class="card bg-light border-light">
-            <div class="card-body task-notes">
-                ${MarkdownToHtml.parse(notes)}
-            </div>
         </div>
     `;
 }
