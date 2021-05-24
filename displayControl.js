@@ -55,8 +55,8 @@ function getDueDateElmt(dueDate) {
     if (! dueDate)
         return `<p class="due-date"></p>`;
 
-    let today = moment();
-    let momentDate = moment(dueDate);
+    let today = moment().startOf('day');
+    let momentDate = moment(dueDate).startOf('day');
     
     let diffYr = momentDate.diff(today, 'years');
     if (diffYr > 0)
