@@ -141,15 +141,24 @@ function updateTags() {
             let urlParts = `tasks/${todo.id}/tags/${tag}`;
             return deleteRequest(urlParts);
         });
-
-        Promise.all([...addPromList, ...delPromList])
+        
+        Promise.all(delPromList)
             .then(function() {
-                displayStatus(`Updated ${checkedTodos.length} todos`);
-                fetchTodos();
+
+                Promise.all(addPromList)
+                    .then(function() {
+                        displayStatus(`Updated ${checkedTodos.length} todos`);
+                        fetchTodos();
+                    })
+                    .catch(e => {
+                        displayStatus(`Failed to add tag`);
+                        alert(`Failed to add tag. ${e}`);
+                    });
+
             })
             .catch(e => {
-                displayStatus(`Failed to update`);
-                alert(e);
+                displayStatus(`Failed to delete tag`);
+                alert(`Failed to delete tag. ${e}`);
             });
     });
 }
