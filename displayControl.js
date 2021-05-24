@@ -55,8 +55,8 @@ function getDueDateElmt(dueDate) {
     if (! dueDate)
         return `<p class="due-date"></p>`;
 
-    let today = moment().startOf('day');
-    let momentDate = moment(dueDate).startOf('day');
+    let today = moment().startOf('date');
+    let momentDate = moment(dueDate).startOf('date');
     
     let diffYr = momentDate.diff(today, 'years');
     if (diffYr > 0)
@@ -75,7 +75,7 @@ function getDueDateElmt(dueDate) {
     } else if (diffDay == 0) {
         return `<p class="due-date due-date-urgent">Due Today</p>`;
     } else if (diffDay <= 7) {
-        return `<p class="due-date due-date-warning">Due in ${diffDay} days</p>`;
+        return `<p class="due-date due-date-warning">Due in ${diffDay} ${getPlural(diffDay, 'day')}</p>`;
     } else {
         return `<p class="due-date">Due in ${diffDay} days</p>`;
     }
