@@ -52,6 +52,8 @@ function updateDueDatesModalCtrl() {
             } else {
                 dueDateTable[NO_DUE_KEY] = [todo];
             }
+
+            return;
         }
 
         let dueDateKey = moment(todo.date).format(DATE_FORMAT);
