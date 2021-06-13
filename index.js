@@ -144,10 +144,10 @@ function updateTags() {
             return deleteRequest(urlParts);
         });
         
-        Promise.all(delPromList)
+        Promise.all(addPromList)
             .then(function() {
 
-                Promise.all(addPromList)
+                Promise.all(delPromList)
                     .then(function() {
                         displayStatus(`Updated ${checkedTodos.length} todos`);
                         fetchTodos();
