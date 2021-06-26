@@ -1,11 +1,4 @@
-let tags = {};
 let filterTag = [];
-let fetchedTodos = [];
-
-function logout() {
-    removeCredentials();
-    window.location.href = LOGIN_PAGE;
-}
 
 function pushSortedDueDateTasksToTop() {
     displayStatus("Sorting...")
@@ -21,19 +14,6 @@ function pushSortedDueDateTasksToTop() {
             .then(function() {
                 fetchTodos();
             });
-    });
-}
-
-function fetchTodos() {    
-    displayStatus("Fetching todos...");
-    displayTasks([], []);
-    
-    getAllTodos().then(function(resp) {
-        let todos = resp.data;
-        fetchedTodos = [...todos];
-
-        filterByTag();
-        displayStatus(`Fetched ${todos.length} todos`);
     });
 }
 
@@ -139,29 +119,21 @@ function updateTags() {
             return postRequest(urlParts);
         });
 
-        let delPromList = toDel.map(tag => {
+        let delPromList = toDel.map((tag, i) => {
             let urlParts = `tasks/${todo.id}/tags/${tag}`;
             return deleteRequest(urlParts);
         });
+
+        let endAction = new Promise((res, _) => {
+            fetchTodos();
+            res();
+        });
+
+        let toUpdate = [...addPromList, ...delPromList, endAction] ;
+
+        let reducer = (prom, fn) => prom.then(fn);
         
-        Promise.all(addPromList)
-            .then(function() {
-
-                Promise.all(delPromList)
-                    .then(function() {
-                        displayStatus(`Updated ${checkedTodos.length} todos`);
-                        fetchTodos();
-                    })
-                    .catch(e => {
-                        displayStatus(`Failed to add tag`);
-                        alert(`Failed to add tag. ${e}`);
-                    });
-
-            })
-            .catch(e => {
-                displayStatus(`Failed to delete tag`);
-                alert(`Failed to delete tag. ${e}`);
-            });
+        toUpdate.reduce(reducer, Promise.resolve());
     });
 }
 
@@ -275,30 +247,6 @@ function deleteTodos() {
             displayStatus(`Failed to delete`);
             alert(e);
         });
-}
-
-async function getAllTags() {
-    let urlParts = "tags"
-
-    let req = await getRequest(urlParts);
-    let tagList = req.data;
-    tagList.map(tag => {
-        tags[tag.id] = tag.name;
-    });
-
-    return req.data;
-}
-
-async function getAllTodos() {
-    let urlParts = "tasks/user?type=todos";
-    
-    try {
-        let req = await getRequest(urlParts);
-        return req;
-
-    } catch (e) {
-        displayStatus("Failed to get all todos! " + e);
-    }
 }
 
 async function moveToTop(tasks) {
